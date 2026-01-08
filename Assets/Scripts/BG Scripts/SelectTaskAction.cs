@@ -19,7 +19,6 @@ public partial class SelectTaskAction : Action
     [SerializeReference] public BlackboardVariable<float> DistanceToWood;
     [SerializeReference] public BlackboardVariable<float> DistanceToStone;
     [SerializeReference] public BlackboardVariable<float> DistanceToSand;
-    [SerializeReference] public BlackboardVariable<bool> MapChanged;
 
     private float sandScore;
     private float stoneScore;
@@ -27,7 +26,6 @@ public partial class SelectTaskAction : Action
 
     protected override Status OnStart()
     {
-        MapChanged.Value = PlayerProgress.isMapChanging;
         SetScores();
         Dictionary<TaskType, float> scores = new Dictionary<TaskType, float>
         {

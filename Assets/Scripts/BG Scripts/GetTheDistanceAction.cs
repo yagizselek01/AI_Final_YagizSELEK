@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using TMPro;
 using Unity.Behavior;
 using Unity.Properties;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 using Action = Unity.Behavior.Action;
 
 [Serializable, GeneratePropertyBag]
@@ -28,10 +25,6 @@ public partial class GetTheDistanceAction : Action
         DistanceToStone.Value = GetDistance(StonePoint.Value);
         DistanceToSand.Value = GetDistance(SandPoint.Value);
         return Status.Success;
-    }
-
-    protected override void OnEnd()
-    {
     }
 
     private float GetDistance(Transform target)

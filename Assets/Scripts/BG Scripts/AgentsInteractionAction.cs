@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using Unity.AppUI.UI;
 using Unity.Behavior;
 using Unity.Properties;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Action = Unity.Behavior.Action;
 
 [Serializable, GeneratePropertyBag]
@@ -38,16 +35,9 @@ public partial class AgentsInteractionAction : Action
         return Status.Success;
     }
 
-    protected override void OnEnd()
-    {
-    }
-
     private bool HasHigherPriorityNearby()
     {
-        int count = Physics.OverlapSphereNonAlloc(
-Self.Value.transform.position,
-2f,
-buffer);
+        int count = Physics.OverlapSphereNonAlloc(Self.Value.transform.position, 2f, buffer);
         for (int i = 0; i < count; i++)
         {
             AgentMover other = buffer[i].GetComponent<AgentMover>();

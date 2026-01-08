@@ -1,15 +1,9 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerProgress
 {
     //Variables that need to be accessed globally
-    public static bool isMapChanging = false; //*NOTE*
-
-    public static bool gatheringResource = false;
-
-    public static readonly Vector3 startPoint = new Vector3(95, 3, 5);
+    public static bool isMapChanging = false;
 
     //Resources
     public static int GlobalWood = 0;

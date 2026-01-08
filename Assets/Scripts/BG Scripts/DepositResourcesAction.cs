@@ -20,15 +20,6 @@ public partial class DepositResourcesAction : Action
         Sand.Value = 0;
         Stone.Value = 0;
         Wood.Value = 0;
-        return Status.Running;
-    }
-
-    protected override Status OnUpdate()
-    {
         return Status.Success;
-    }
-
-    protected override void OnEnd()
-    {
     }
 }
