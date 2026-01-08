@@ -20,7 +20,7 @@ public partial class AgentsInteractionAction : Action
     protected override Status OnStart()
     {
         agentMover = Self.Value.GetComponent<AgentMover>();
-        normalMoveSpeed = agentMover.defaultMoveSpeed;
+        normalMoveSpeed = agentMover.defaultMoveSpeed * PlayerProgress.SpeedLevel * 10;
         return Status.Running;
     }
 

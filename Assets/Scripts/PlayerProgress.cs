@@ -2,18 +2,25 @@ using UnityEngine;
 
 public class PlayerProgress
 {
-    //Variables that need to be accessed globally
+    #region Global Variables
+
     public static bool isMapChanging = false;
 
-    //Resources
+    #endregion Global Variables
+
+    #region Global Resources
+
     public static int GlobalWood = 0;
 
     public static int GlobalStone = 0;
     public static int GlobalSand = 0;
 
-    //Upgrades
+    #endregion Global Resources
 
-    //House Upgrade
+    #region Upgrades
+
+    #region HouseUpgrade
+
     public const int MaxHouseLevel = 24;
 
     private static int houseLevel = 1;
@@ -26,8 +33,11 @@ public class PlayerProgress
         set => houseLevel = Mathf.Clamp(value, 1, MaxHouseLevel);
     }
 
-    //Speed Upgrade
-    public const int MaxSpeedLevel = 12;
+    #endregion HouseUpgrade
+
+    #region SpeedUpgrade
+
+    public const int MaxSpeedLevel = 6;
 
     private static int speedLevel = 1;
 
@@ -36,6 +46,24 @@ public class PlayerProgress
         get => speedLevel;
         set => speedLevel = Mathf.Clamp(value, 1, MaxSpeedLevel);
     }
+
+    #endregion SpeedUpgrade
+
+    #region GatherUpgrade
+
+    public const int MaxGatherSpeedLevel = 6;
+
+    private static int gatherSpeedLevel = 1;
+
+    public static int GatherSpeedLevel
+    {
+        get => gatherSpeedLevel;
+        set => gatherSpeedLevel = Mathf.Clamp(value, 1, MaxGatherSpeedLevel);
+    }
+
+    #endregion GatherUpgrade
+
+    #region CarryUpgrade
 
     //Carry Upgrade
     public const int MaxCarryLevel = 12;
@@ -50,6 +78,10 @@ public class PlayerProgress
 
     //inventory capacity
     public static int InventoryCapacity { get => carryLevel * 2; }
+
+    #endregion CarryUpgrade
+
+    #endregion Upgrades
 
     //public readonly static int[,,] HouseCost =
 }

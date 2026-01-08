@@ -10,9 +10,9 @@ public partial class MapChangingAction : Action
 {
     [SerializeReference] public BlackboardVariable<bool> MapChanged;
     [SerializeReference] public BlackboardVariable<GameObject> Self;
-    [SerializeReference] public BlackboardVariable<float> Wood;
-    [SerializeReference] public BlackboardVariable<float> Stone;
-    [SerializeReference] public BlackboardVariable<float> Sand;
+    [SerializeReference] public BlackboardVariable<int> Wood;
+    [SerializeReference] public BlackboardVariable<int> Stone;
+    [SerializeReference] public BlackboardVariable<int> Sand;
     [SerializeReference] public BlackboardVariable<TaskType> CurrentTask;
     [SerializeReference] public BlackboardVariable<Vector3> StartPoint;
     [SerializeReference] public BlackboardVariable<int> Death;
@@ -34,9 +34,9 @@ public partial class MapChangingAction : Action
             if (!node.walkable)
             {
                 Self.Value.transform.position = StartPoint.Value;
-                Wood.Value = Wood.Value * 0.3f;
-                Stone.Value = Stone.Value * 0.3f;
-                Sand.Value = Sand.Value * 0.3f;
+                Wood.Value = Mathf.RoundToInt(Wood.Value * 0.3f);
+                Stone.Value = Mathf.RoundToInt(Stone.Value * 0.3f);
+                Sand.Value = Mathf.RoundToInt(Sand.Value * 0.3f);
                 CurrentTask.Value = TaskType.Idle;
                 Death.Value = 1;
                 return Status.Success;

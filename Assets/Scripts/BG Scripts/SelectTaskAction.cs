@@ -47,7 +47,6 @@ public partial class SelectTaskAction : Action
                 CurrentTask.Value = score.Key;
             }
         }
-        Debug.Log("Selected Task: " + CurrentTask.Value.ToString());
         return Status.Success;
     }
 
@@ -65,7 +64,6 @@ public partial class SelectTaskAction : Action
 
     private float ScoreStoreResources()
     {
-        Debug.Log("Total Inventory: " + TotalInventory());
         if (TotalInventory() >= PlayerProgress.InventoryCapacity)
             return float.MinValue;
         return float.MaxValue;

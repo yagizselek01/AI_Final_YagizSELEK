@@ -6,7 +6,7 @@ public class AgentMover : MonoBehaviour
     public FindPath pathfinder;
     public GridManager gridManager;
     public float moveSpeed = 3f;
-    public float defaultMoveSpeed;
+    [HideInInspector] public float defaultMoveSpeed;
     public List<Node> currentPath;
     private int currentIndex = 0;
     private Rigidbody rb;

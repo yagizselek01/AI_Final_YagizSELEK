@@ -6,14 +6,16 @@ using Unity.Properties;
 using System.Collections.Generic;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Gather", story: "[Self] gathers resource [Inventory] - [theList] // [Gathering]", category: "Action", id: "91864b67c327f5d220d80baef55a2b84")]
+[NodeDescription(name: "Gather", story: "[Self] gathers resource [MainInventory] - [theList] // [Gathering] // [OtherInventory] // [OtherInventory2]", category: "Action", id: "91864b67c327f5d220d80baef55a2b84")]
 public partial class GatherAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<List<GameObject>> TheList;
     [SerializeReference] public BlackboardVariable<bool> Gathering;
-    [SerializeReference] public BlackboardVariable<int> Inventory;
-    private float gatheringTimer = 1f;
+    [SerializeReference] public BlackboardVariable<int> MainInventory;
+    [SerializeReference] public BlackboardVariable<int> OtherInventory;
+    [SerializeReference] public BlackboardVariable<int> OtherInventory2;
+    private float gatheringTimer;
     private float currentTimer = 0f;
     private int defaultID;
 
@@ -29,7 +31,8 @@ public partial class GatherAction : Action
 
     protected override Status OnUpdate()
     {
-        if (Inventory.Value >= PlayerProgress.InventoryCapacity)
+        gatheringTimer = 3 / PlayerProgress.GatherSpeedLevel;
+        if (Inventory >= PlayerProgress.InventoryCapacity)
         {
             return Status.Success;
         }
@@ -38,11 +41,19 @@ public partial class GatherAction : Action
 
         if (currentTimer >= gatheringTimer)
         {
-            Inventory.Value += 1;
+            MainInventory.Value += 1;
             currentTimer = 0;
         }
 
         return Status.Running;
+    }
+
+    private int Inventory
+    {
+        get
+        {
+            return MainInventory.Value + OtherInventory.Value + OtherInventory2.Value;
+        }
     }
 
     protected override void OnEnd()
