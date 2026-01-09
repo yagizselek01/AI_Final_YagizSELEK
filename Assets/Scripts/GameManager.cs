@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
@@ -17,17 +16,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private BehaviorGraph behaviorGraph;
 
-    [Header("Settings")]
-    [SerializeField] private float updateInterval = 3f;
-
     private int lastAgentLevel = 0;
     private int lastSpeedLevel = 0;
     private int lastGatheringLevel = 0;
     private int lastCarryLevel = 0;
 
-    private void Start()
+    private void Update()
     {
-        InvokeRepeating(nameof(UpdateHouseLevels), 0f, updateInterval);
+        UpdateHouseLevels();
     }
 
     private void UpdateHouseLevels()
@@ -49,7 +45,7 @@ public class GameManager : MonoBehaviour
             if (!houses[i].activeSelf)
                 houses[i].SetActive(true);
         }
-        Invoke(methodName, currentLevel);
+        Invoke(methodName, 0f);
         cachedLevel = currentLevel;
     }
 

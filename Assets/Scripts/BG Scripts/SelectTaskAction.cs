@@ -33,7 +33,6 @@ public partial class SelectTaskAction : Action
             { TaskType.GatherStone, stoneScore },
             { TaskType.GatherSand, sandScore },
             { TaskType.StoreResources, ScoreStoreResources() },
-            { TaskType.BuildHouse, ScoreBuildHouse()},
             { TaskType.Idle, scoreIdle }
         };
         float bestScore = float.MaxValue;
@@ -69,18 +68,10 @@ public partial class SelectTaskAction : Action
         return float.MaxValue;
     }
 
-    private float ScoreBuildHouse()
-    {
-        if (PlayerProgress.canBuildHouse)
-            return 0f;
-        return float.MaxValue;
-    }
-
     private float SetScore(int globalResource, float distance, List<GameObject> onTheObject)
     {
         float totalscore = 0f;
-        if (2 * (TotalResources() - globalResource) / 3 < globalResource)
-            totalscore += 20f;
+        totalscore += globalResource / 5;
         totalscore += distance;
         totalscore += onTheObject.Count * 5f;
         return totalscore;

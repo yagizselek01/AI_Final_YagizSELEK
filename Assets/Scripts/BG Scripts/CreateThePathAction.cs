@@ -42,7 +42,8 @@ public partial class CreateThePathAction : Action
     {
         if (this.CurrentStatus == Status.Interrupted)
         {
-            agentMover.currentPath.Clear();
+            if (agentMover != null && agentMover.currentPath != null)
+                agentMover.currentPath.Clear();
             if (TheList.Value != null && TheList.Value.Contains(Self.Value))
             {
                 TheList.Value.Remove(Self.Value);

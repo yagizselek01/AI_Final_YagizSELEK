@@ -7,6 +7,5 @@ public enum TaskType
     GatherStone,
     GatherSand,
     StoreResources,
-    BuildHouse,
     Idle
 }

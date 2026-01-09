@@ -5,10 +5,10 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Map Changing", story: "[MapChanged] triggered // [Self] // [Wood] [Stone] [Sand] // [CurrentTask] // [StartPoint] // [Death]", category: "Action", id: "d5ef23010d3521f2482504f8dfcf788a")]
+[NodeDescription(name: "Map Changing", story: "[MapChanged] triggered // [Self] // [Wood] [Stone] [Sand] // [CurrentTask] // [StartPoint] // [Death] // [Gathering]", category: "Action", id: "d5ef23010d3521f2482504f8dfcf788a")]
 public partial class MapChangingAction : Action
 {
-    [SerializeReference] public BlackboardVariable<bool> MapChanged;
+    [SerializeReference] public BlackboardVariable<int> MapChanged;
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<int> Wood;
     [SerializeReference] public BlackboardVariable<int> Stone;
@@ -16,6 +16,8 @@ public partial class MapChangingAction : Action
     [SerializeReference] public BlackboardVariable<TaskType> CurrentTask;
     [SerializeReference] public BlackboardVariable<Vector3> StartPoint;
     [SerializeReference] public BlackboardVariable<int> Death;
+    [SerializeReference] public BlackboardVariable<bool> Gathering;
+
     private GridManager gridManager;
 
     protected override Status OnStart()
@@ -26,7 +28,11 @@ public partial class MapChangingAction : Action
 
     protected override Status OnUpdate()
     {
-        MapChanged.Value = PlayerProgress.isMapChanging;
+        if (PlayerProgress.isMapChanging && !Gathering)
+        {
+            MapChanged.Value = 1;
+            return Status.Success;
+        }
         if (Physics.Raycast(Self.Value.transform.position, Vector3.down, out RaycastHit hitInfo, 5f))
         {
             Vector2Int nodeTransform = gridManager.WorldToGrid(hitInfo.transform.position);
