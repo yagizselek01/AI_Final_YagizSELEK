@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FindPath : MonoBehaviour
 {
+    // This script comes from one of the Labs
     [SerializeField] private GridManager gridManager;
 
     public List<Node> CreatePath(Node startNode, Node goalNode, bool randomizer)
@@ -43,7 +44,7 @@ public class FindPath : MonoBehaviour
 
                 Vector2Int newDir = new Vector2Int(neighbour.x - current.x, neighbour.y - current.y);
                 float stepCost = 1f;
-                if (randomizer)
+                if (randomizer) // Add randomness to the pathfinding for map
                 {
                     if (currentDir != Vector2Int.zero && newDir == currentDir)
                         stepCost += Random.Range(2f, 5f);

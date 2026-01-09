@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script comes from one of the Labs
 public class AgentMover : MonoBehaviour
 {
     public FindPath pathfinder;
     public GridManager gridManager;
     public float moveSpeed = 3f;
-    [HideInInspector] public float defaultMoveSpeed;
+    [HideInInspector] public float defaultMoveSpeed; // Store the default move speed
     public List<Node> currentPath;
     private int currentIndex = 0;
     private Rigidbody rb;
     private bool moving = false;
     [SerializeField] private GameObject originTile;
-    [SerializeField] public int ID;
+    [SerializeField] public int ID; // It's for swarm behavior
 
     public void ConstructPath(Transform target)
     {
@@ -23,7 +24,7 @@ public class AgentMover : MonoBehaviour
 
     private void Start()
     {
-        defaultMoveSpeed = moveSpeed;
+        defaultMoveSpeed = moveSpeed; // Store the default move speed
         rb = GetComponent<Rigidbody>();
     }
 
@@ -56,7 +57,7 @@ public class AgentMover : MonoBehaviour
         rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, step));
     }
 
-    public Vector3 GridToWorld(Node node)
+    public Vector3 GridToWorld(Node node) // Converts grid coordinates to world coordinates
     {
         return new Vector3(
             Mathf.FloorToInt((node.x * gridManager.cellSize) + originTile.transform.position.x), 3,

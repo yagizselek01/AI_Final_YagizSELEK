@@ -9,6 +9,8 @@ using System.Collections.Generic;
 [NodeDescription(name: "Gather", story: "[Self] gathers resource [MainInventory] - [theList] // [Gathering] // [OtherInventory] // [OtherInventory2]", category: "Action", id: "91864b67c327f5d220d80baef55a2b84")]
 public partial class GatherAction : Action
 {
+    #region variables
+
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<List<GameObject>> TheList;
     [SerializeReference] public BlackboardVariable<bool> Gathering;
@@ -19,13 +21,15 @@ public partial class GatherAction : Action
     private float currentTimer = 0f;
     private int defaultID;
 
+    #endregion variables
+
     protected override Status OnStart()
     {
         defaultID = Self.Value.GetComponent<AgentMover>().ID;
         currentTimer = 0f;
         Gathering.Value = true;
 
-        Self.Value.GetComponent<AgentMover>().ID = 30;
+        Self.Value.GetComponent<AgentMover>().ID = 30; // If gathering, don't disturb other agents
         return Status.Running;
     }
 
@@ -45,7 +49,7 @@ public partial class GatherAction : Action
             currentTimer = 0;
         }
 
-        return Status.Running;
+        return Status.Running; // Still gathering
     }
 
     private int Inventory
@@ -58,11 +62,11 @@ public partial class GatherAction : Action
 
     protected override void OnEnd()
     {
-        if (TheList.Value.Contains(Self.Value))
+        if (TheList.Value.Contains(Self.Value)) // Remove from gathering list
         {
             TheList.Value.Remove(Self.Value);
         }
         Gathering.Value = false;
-        Self.Value.GetComponent<AgentMover>().ID = defaultID;
+        Self.Value.GetComponent<AgentMover>().ID = defaultID; // Restore original ID
     }
 }

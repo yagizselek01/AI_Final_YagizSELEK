@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    #region Variables
+
     [Header("Grid Settings")]
     [SerializeField] public int gridWidth = 20;
 
@@ -30,6 +32,8 @@ public class GridManager : MonoBehaviour
     private Node[] entrances;
     public Node[,] nodes;
     private FindPath findPath;
+
+    #endregion Variables
 
     private void Awake()
     {
@@ -79,7 +83,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public Vector2Int WorldToGrid(Vector3 pos)
+    public Vector2Int WorldToGrid(Vector3 pos) // Converts world position to grid coordinates
     {
         Vector3 origin = startTile.transform.position;
         return new Vector2Int(
@@ -113,7 +117,7 @@ public class GridManager : MonoBehaviour
         return nodes[x, y];
     }
 
-    public Node GetNodeFromWorldPoint(Vector3 worldPos)
+    public Node GetNodeFromWorldPoint(Vector3 worldPos) // Converts world position to Node
     {
         Vector2Int gridPos = WorldToGrid(worldPos);
         return GetNode(gridPos.x, gridPos.y);
@@ -121,6 +125,8 @@ public class GridManager : MonoBehaviour
 
     private void MakePath()
     {
+        // Creates safe path between entrances and sets lava on other nodes
+        // using FindPath script to create paths between entrances randomly
         List<Node> safeNodes = new();
         List<Node> availableEntrances = new List<Node>(entrances);
 
@@ -150,9 +156,9 @@ public class GridManager : MonoBehaviour
             }
             current = next;
         }
-        StartCoroutine(MapChanging());
+        StartCoroutine(MapChanging()); // Indicate that the map is changing for a brief moment
         SetLava(safeNodes);
-        navMeshSurface.BuildNavMesh();
+        navMeshSurface.BuildNavMesh(); // Rebuild NavMesh after changing walkable areas
     }
 
     private void SetLava(List<Node> safenodes)
@@ -174,7 +180,7 @@ public class GridManager : MonoBehaviour
             int index = Random.Range(0, lavaNodes.Count);
             Node lavaNode = lavaNodes[index];
             lavaNode.walkable = false;
-            lavaNode.tile.layer = LayerMask.NameToLayer("NonWalkable");
+            lavaNode.tile.layer = LayerMask.NameToLayer("NonWalkable"); //For NavMesh to ignore
             SetTileMaterial(lavaNode, lavaMaterial);
             lavaNodes.RemoveAt(index);
         }

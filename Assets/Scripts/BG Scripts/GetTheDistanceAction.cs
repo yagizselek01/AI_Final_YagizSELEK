@@ -9,6 +9,8 @@ using Action = Unity.Behavior.Action;
 [NodeDescription(name: "Get The Distance", story: "Getting the Distance", category: "Action", id: "e7aac7339025fd1c1791777337d2236f")]
 public partial class GetTheDistanceAction : Action
 {
+    #region variables
+
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<Transform> TreePoint;
     [SerializeReference] public BlackboardVariable<Transform> StonePoint;
@@ -17,6 +19,8 @@ public partial class GetTheDistanceAction : Action
     [SerializeReference] public BlackboardVariable<float> DistanceToStone;
     [SerializeReference] public BlackboardVariable<float> DistanceToSand;
     private NavMeshAgent agent;
+
+    #endregion variables
 
     protected override Status OnStart()
     {
@@ -34,7 +38,7 @@ public partial class GetTheDistanceAction : Action
         return CalculatePathLength(target.position) / 10f;
     }
 
-    private float CalculatePathLength(Vector3 targetPosition)
+    private float CalculatePathLength(Vector3 targetPosition) //Getting the path length using NavMesh
     {
         NavMeshPath path = new NavMeshPath();
         if (agent.enabled)

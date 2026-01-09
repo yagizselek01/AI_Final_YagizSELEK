@@ -19,7 +19,7 @@ public partial class CreateThePathAction : Action
         agentMover = Self.Value.GetComponent<AgentMover>();
         agentMover.ConstructPath(TargetPoint.Value);
         if (TheList.Value != null)
-            TheList.Value.Add(Self.Value);
+            TheList.Value.Add(Self.Value); //Agent going to gather that resource
         return Status.Running;
     }
 
@@ -29,24 +29,24 @@ public partial class CreateThePathAction : Action
         if (Self.Value.transform.position.x == TargetPoint.Value.position.x &&
            Self.Value.transform.position.z == TargetPoint.Value.position.z)
         {
-            return Status.Success;
+            return Status.Success; //Reached the target
         }
-        if (!Self.Value.transform.hasChanged && Self.Value.transform.position.x % 5 != 0 && Self.Value.transform.position.z % 5 != 0)
+        if (!Self.Value.transform.hasChanged && Self.Value.transform.position.x % 5 != 0 && Self.Value.transform.position.z % 5 != 0) // %5 to avoid stopping on non grid positions
         {
-            return Status.Failure;
+            return Status.Failure; //Stuck somewhere
         }
         return Status.Running;
     }
 
     protected override void OnEnd()
     {
-        if (this.CurrentStatus == Status.Interrupted)
+        if (this.CurrentStatus == Status.Interrupted) //death or map change
         {
             if (agentMover != null && agentMover.currentPath != null)
                 agentMover.currentPath.Clear();
             if (TheList.Value != null && TheList.Value.Contains(Self.Value))
             {
-                TheList.Value.Remove(Self.Value);
+                TheList.Value.Remove(Self.Value); //Didn't reach the target, so remove itself from the gathering list
             }
         }
     }

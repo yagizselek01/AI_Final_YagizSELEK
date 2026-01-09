@@ -9,6 +9,8 @@ using System.Collections.Generic;
 [NodeDescription(name: "Select Task", story: "Selecting The Task", category: "Action", id: "7815e6e161708a7c1fe4886fc896a861")]
 public partial class SelectTaskAction : Action
 {
+    #region Variables
+
     [SerializeReference] public BlackboardVariable<int> InventoryWood;
     [SerializeReference] public BlackboardVariable<int> InventoryStone;
     [SerializeReference] public BlackboardVariable<int> InventorySand;
@@ -25,6 +27,8 @@ public partial class SelectTaskAction : Action
     private float woodScore;
     private static int maxExpectedDistance = 25;
     private static int maxExpectedAgent = 8;
+
+    #endregion Variables
 
     protected override Status OnStart()
     {
@@ -72,6 +76,7 @@ public partial class SelectTaskAction : Action
 
     private float SetScore(int globalResource, float distance, List<GameObject> onTheObject)
     {
+        //Math is awful here the important part is system works
         float totalscore = 0f;
         if (TotalResources() != 0)
             totalscore += (float)globalResource / TotalResources();

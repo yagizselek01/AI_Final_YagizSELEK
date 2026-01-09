@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
+
     [Header("House References")]
     [SerializeField] private List<GameObject> agentHouses;
 
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour
     private int lastGatheringLevel = 0;
     private int lastCarryLevel = 0;
 
+    #endregion Variables
+
     private void Update()
     {
         UpdateHouseLevels();
@@ -29,9 +33,9 @@ public class GameManager : MonoBehaviour
     private void UpdateHouseLevels()
     {
         UpdateHouseList(agentHouses, PlayerProgress.HouseLevel, ref lastAgentLevel, nameof(GetAgents));
-        UpdateHouseList(speedHouses, PlayerProgress.SpeedLevel, ref lastSpeedLevel, nameof(Empty));
-        UpdateHouseList(gatheringHouses, PlayerProgress.GatherSpeedLevel, ref lastGatheringLevel, nameof(Empty));
-        UpdateHouseList(carryHouses, PlayerProgress.CarryLevel, ref lastCarryLevel, nameof(Empty));
+        UpdateHouseList(speedHouses, PlayerProgress.SpeedLevel, ref lastSpeedLevel, null);
+        UpdateHouseList(gatheringHouses, PlayerProgress.GatherSpeedLevel, ref lastGatheringLevel, null);
+        UpdateHouseList(carryHouses, PlayerProgress.CarryLevel, ref lastCarryLevel, null);
     }
 
     private void UpdateHouseList(List<GameObject> houses, int currentLevel, ref int cachedLevel, string methodName)
@@ -45,7 +49,8 @@ public class GameManager : MonoBehaviour
             if (!houses[i].activeSelf)
                 houses[i].SetActive(true);
         }
-        Invoke(methodName, 0f);
+        if (!string.IsNullOrEmpty(methodName))
+            Invoke(methodName, 0f); // Call the specified method after updating houses
         cachedLevel = currentLevel;
     }
 
@@ -54,10 +59,5 @@ public class GameManager : MonoBehaviour
         agents[lastAgentLevel - 1].SetActive(true);
         agents[lastAgentLevel - 1].GetComponent<BehaviorGraphAgent>().Graph = behaviorGraph;
         agents[lastAgentLevel - 1].GetComponent<BehaviorGraphAgent>().enabled = true;
-    }
-
-    private void Empty()
-    {
-        // Placeholder
     }
 }

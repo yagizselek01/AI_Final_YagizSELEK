@@ -31,7 +31,7 @@ public partial class AgentsInteractionAction : Action
             agentMover.moveSpeed = 0f;
             return Status.Failure;
         }
-        agentMover.moveSpeed = normalMoveSpeed + (PlayerProgress.SpeedLevel * 10);
+        agentMover.moveSpeed = normalMoveSpeed + (PlayerProgress.SpeedLevel * 10); //Speed upgrade effect
         return Status.Success;
     }
 
@@ -41,7 +41,7 @@ public partial class AgentsInteractionAction : Action
         for (int i = 0; i < count; i++)
         {
             AgentMover other = buffer[i].GetComponent<AgentMover>();
-            if (!other || other == Self.Value || AtEnterance(Self.Value.transform)) continue;
+            if (!other || other == Self.Value || AtEnterance(Self.Value.transform)) continue; //Ignore self and agents at entrance
 
             if (other.ID < agentMover.ID && Self.Value.transform.position.x % 5 == 0 && Self.Value.transform.position.z % 5 == 0)
                 return true;

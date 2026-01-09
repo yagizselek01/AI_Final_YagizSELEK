@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    #region variables
+
     [SerializeField] private TMP_Text[] resourceTexts;
     [SerializeField] public TMP_Text houseNameText;
     [SerializeField] public TMP_Text houseCostText;
@@ -22,6 +24,8 @@ public class UI : MonoBehaviour
     private string notAffordableText = "Not Affordable";
     private string upgradeText = "Upgrade";
 
+    #endregion variables
+
     private void OnEnable()
     {
         InvokeRepeating(nameof(LookingForCost), 0f, 0.5f);
@@ -39,7 +43,7 @@ public class UI : MonoBehaviour
            PlayerProgress.GatherSpeedLevel >= PlayerProgress.MaxGatherSpeedLevel && PlayerProgress.CarryLevel >= PlayerProgress.MaxCarryLevel)
         {
             gameOverText.gameObject.SetActive(true);
-        }
+        }//Game Over
     }
 
     private void HouseTexts()
@@ -142,7 +146,7 @@ public class UI : MonoBehaviour
 
     private void LookingForCost()
     {
-        if (PlayerProgress.HouseLevel >= PlayerProgress.MaxHouseLevel)
+        if (PlayerProgress.HouseLevel >= PlayerProgress.MaxHouseLevel)// Max Level Check
         {
             houseUpgradeButton.GetComponentInChildren<TMP_Text>().text = "Max Level";
             houseUpgradeButton.interactable = false;
@@ -152,7 +156,7 @@ public class UI : MonoBehaviour
             houseUpgradeButton.GetComponentInChildren<TMP_Text>().text = upgradeText;
             houseUpgradeButton.interactable = true;
         }
-        if (PlayerProgress.SpeedLevel >= PlayerProgress.MaxSpeedLevel)
+        if (PlayerProgress.SpeedLevel >= PlayerProgress.MaxSpeedLevel)// Max Level Check
         {
             speedUpgradeButton.GetComponentInChildren<TMP_Text>().text = "Max Level";
             speedUpgradeButton.interactable = false;
@@ -162,7 +166,7 @@ public class UI : MonoBehaviour
             speedUpgradeButton.GetComponentInChildren<TMP_Text>().text = upgradeText;
             speedUpgradeButton.interactable = true;
         }
-        if (PlayerProgress.GatherSpeedLevel >= PlayerProgress.MaxGatherSpeedLevel)
+        if (PlayerProgress.GatherSpeedLevel >= PlayerProgress.MaxGatherSpeedLevel)// Max Level Check
         {
             gatherSpeedUpgradeButton.GetComponentInChildren<TMP_Text>().text = "Max Level";
             gatherSpeedUpgradeButton.interactable = false;
@@ -172,7 +176,7 @@ public class UI : MonoBehaviour
             gatherSpeedUpgradeButton.GetComponentInChildren<TMP_Text>().text = upgradeText;
             gatherSpeedUpgradeButton.interactable = true;
         }
-        if (PlayerProgress.CarryLevel >= PlayerProgress.MaxCarryLevel)
+        if (PlayerProgress.CarryLevel >= PlayerProgress.MaxCarryLevel)// Max Level Check
         {
             carryUpgradeButton.GetComponentInChildren<TMP_Text>().text = "Max Level";
             carryUpgradeButton.interactable = false;

@@ -8,6 +8,8 @@ using Unity.Properties;
 [NodeDescription(name: "Map Changing", story: "[MapChanged] triggered // [Self] // [Wood] [Stone] [Sand] // [CurrentTask] // [StartPoint] // [Death] // [Gathering]", category: "Action", id: "d5ef23010d3521f2482504f8dfcf788a")]
 public partial class MapChangingAction : Action
 {
+    #region variables
+
     [SerializeReference] public BlackboardVariable<int> MapChanged;
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<int> Wood;
@@ -20,6 +22,8 @@ public partial class MapChangingAction : Action
 
     private GridManager gridManager;
 
+    #endregion variables
+
     protected override Status OnStart()
     {
         gridManager = GameObject.FindFirstObjectByType<GridManager>();
@@ -28,26 +32,29 @@ public partial class MapChangingAction : Action
 
     protected override Status OnUpdate()
     {
-        if (PlayerProgress.isMapChanging && !Gathering)
+        if (PlayerProgress.isMapChanging && !Gathering) //Don't trigger when gathering to avoid issues
         {
             MapChanged.Value = 1;
             return Status.Success;
         }
         if (Physics.Raycast(Self.Value.transform.position, Vector3.down, out RaycastHit hitInfo, 5f))
         {
+            //getting the node the agent is currently on
             Vector2Int nodeTransform = gridManager.WorldToGrid(hitInfo.transform.position);
             Node node = gridManager.GetNode(nodeTransform.x, nodeTransform.y);
             if (!node.walkable)
             {
                 Self.Value.transform.position = StartPoint.Value;
+                //Lose inventory by 70% on death
                 Wood.Value = Mathf.RoundToInt(Wood.Value * 0.3f);
                 Stone.Value = Mathf.RoundToInt(Stone.Value * 0.3f);
                 Sand.Value = Mathf.RoundToInt(Sand.Value * 0.3f);
+                //Reset task
                 CurrentTask.Value = TaskType.Idle;
-                Death.Value = 1;
+                Death.Value = 1; //Agent died during map change
                 return Status.Success;
             }
         }
-        return Status.Failure;
+        return Status.Failure; //Don't initialize the sequence
     }
 }

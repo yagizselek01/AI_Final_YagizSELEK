@@ -156,6 +156,4 @@ public class PlayerProgress
     }
 
     #endregion bools
-
-    //public readonly static int[,,] HouseCost =
 }
