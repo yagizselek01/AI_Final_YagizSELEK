@@ -23,6 +23,8 @@ public partial class SelectTaskAction : Action
     private float sandScore;
     private float stoneScore;
     private float woodScore;
+    private static int maxExpectedDistance = 25;
+    private static int maxExpectedAgent = 8;
 
     protected override Status OnStart()
     {
@@ -71,9 +73,10 @@ public partial class SelectTaskAction : Action
     private float SetScore(int globalResource, float distance, List<GameObject> onTheObject)
     {
         float totalscore = 0f;
-        totalscore += globalResource / 5;
-        totalscore += distance;
-        totalscore += onTheObject.Count * 5f;
+        if (TotalResources() != 0)
+            totalscore += (float)globalResource / TotalResources();
+        totalscore += distance / maxExpectedDistance;
+        totalscore += (float)onTheObject.Count / maxExpectedAgent;
         return totalscore;
     }
 
